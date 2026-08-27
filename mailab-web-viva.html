@@ -505,6 +505,9 @@ textarea{resize:vertical;min-height:100px}
   transition:top .5s var(--mv-bounce), left .5s var(--mv-bounce), width .5s var(--mv-bounce), height .5s var(--mv-bounce), border-radius .45s var(--mv-ease);
 }
 .mv-lightbox-box img{ width:100%; height:100%; object-fit:cover; display:block; }
+.hero-single-img img{ animation: mv-kenburns 7s ease-in-out infinite alternate; }
+@keyframes mv-kenburns{ 0%{ transform: scale(1); } 100%{ transform: scale(1.06); } }
+
 .mv-lightbox-caption{
   position:fixed; z-index:9999; bottom:32px; left:50%; transform:translateX(-50%);
   color:#fff; font-weight:800; text-transform:uppercase; font-size:13px; letter-spacing:.04em;
@@ -1149,6 +1152,17 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
   }
   document.querySelectorAll('.srv-card').forEach(function(el){ attachTilt(el, 8); });
   document.querySelectorAll('.cat-card').forEach(function(el){ attachTilt(el, 5); });
+
+  // Los clics en las tarjetas de categoria abren la foto grande en vez de navegar directo
+  document.querySelectorAll('.cat-card').forEach(function(card){
+    card.addEventListener('click', function(e){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      var img = card.querySelector('.cat-img');
+      var name = card.querySelector('.cat-name');
+      if(img) openLightbox(img, name ? name.textContent : '');
+    }, true);
+  });
 
   // ---- Aparicion escalonada de las tarjetas de categoria al hacer scroll ----
   var catEls = document.querySelectorAll('.cat-card');
